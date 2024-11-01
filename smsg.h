@@ -24,9 +24,30 @@
 // |  P R O T O T Y P E S  |
 // +-----------------------+
 
-void size_by_type(void * super);
-void msg_htonl(void * msg);
-void msg_ntohl(void * msg);
+/*
+@brief Create new SMSG object with needed type.
+
+@param type type of massage that will be created.
+
+@note Must be destroyed using sm_destroy() when no longer need it.
+*/
+void * sm_create(int type);
+
+/*
+@brief Create new SMSG object with needed type.
+
+@param msg pointer to SMSG object that will be destroyed.
+*/
+void sm_destroy(void * msg);
+
+/*
+@brief Set super.size with current SMSG type
+@param super pointer to SMSG instance.
+
+@return
+Count of bytes for current SMSG type message.
+*/
+long sm_size_by_type(void * super);
 
 // +-----------------+
 // |  S T R U C T S  |
@@ -48,7 +69,7 @@ typedef struct sm
 /*
 SMSG Type: UsersOnline
 
-#define: SMSG_TYPE_USERS_ONLINE
+@note `SMSG_TYPE_USERS_ONLINE`
 */
 typedef struct sm_users_online
 {
@@ -63,7 +84,7 @@ typedef struct sm_users_online
 /*
 SMSG Type: Flags
 
-#define: SMSG_TYPE_SERVICE
+@note `SMSG_TYPE_SERVICE`
 */
 typedef struct sm_service
 {
@@ -81,7 +102,7 @@ typedef struct sm_service
 /*
 SMSG Type: Message
 
-#define: SMSG_TYPE_MESSAGE
+@note `SMSG_TYPE_MESSAGE`
 */
 typedef struct sm_message
 {
@@ -105,7 +126,7 @@ typedef struct sm_message
 /*
 SMSG Type: Initial
 
-Message type: SMSG_TYPE_CLIENT_INIT
+@note `SMSG_TYPE_CLIENT_INIT`
 */
 typedef struct sm_init
 {

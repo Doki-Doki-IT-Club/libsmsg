@@ -24,7 +24,9 @@
 // |  P R O T O T Y P E S  |
 // +-----------------------+
 
-int size_by_type(int type);
+void size_by_type(void * super);
+void msg_htonl(void * msg);
+void msg_ntohl(void * msg);
 
 // +-----------------+
 // |  S T R U C T S  |

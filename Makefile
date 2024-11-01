@@ -1,13 +1,17 @@
-CC=clang
+CC=gcc
 DBG= -g
 
 all: clean lib
 
-lib: smsg.o
-	$(CC) -shared -o libsmsg.so smsg.o
+init:
+	rm -f ../libsmsg.so
+	ln -s libsmsg/lib/libsmsg.so ../libsmsg.so
 
-smsg.o: src/smsg.c
-	$(CC) $(DBG) -c -fPIC src/smsg.c
+lib: obj/smsg.o
+	$(CC) -shared -o lib/libsmsg.so obj/smsg.o
+
+obj/smsg.o: src/smsg.c
+	$(CC) $(DBG) -c -fPIC src/smsg.c -o obj/smsg.o
 
 clean:
-	rm -rf *.o
+	rm -f obj/*.o

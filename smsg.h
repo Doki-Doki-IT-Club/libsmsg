@@ -1,18 +1,34 @@
 #ifndef __LIBSMSG_H__
 #define __LIBSMSG_H__
 
-// DEFINES
+// +-------------------+
+// |  I N C L U D E S  |
+// +-------------------+
+
+#include <stdbool.h>
+
+// +-----------------+
+// |  D E F I N E S  |
+// +-----------------+
 
 #define MSG_TXT_FIELD_SIZE 64
 #define CLIENT_NAME_FILED_SIZE 16
 #define USERS_ONLINE_LIST_SIZE 64
 
-#define SMSG_TYPE_FLAGS 0
+#define SMSG_TYPE_SERVICE 0
 #define SMSG_TYPE_MESSAGE 1
 #define SMSG_TYPE_CLIENT_INIT 2
 #define SMSG_TYPE_USERS_ONLINE 3
 
-// STRUCTS
+// +-----------------------+
+// |  P R O T O T Y P E S  |
+// +-----------------------+
+
+int size_by_type(int type);
+
+// +-----------------+
+// |  S T R U C T S  |
+// +-----------------+
 
 /*
 SMSG Core-type
@@ -21,6 +37,10 @@ typedef struct sm
 {
     /*Field that must be used for check message type*/
     int type;
+
+    /*Field that must be used for check message size*/
+    int size;
+
 } sm;
 
 /*
@@ -35,34 +55,26 @@ typedef struct sm_users_online
 
     int users_count;
     char names[USERS_ONLINE_LIST_SIZE][CLIENT_NAME_FILED_SIZE];
+
 } sm_users_online;
 
 /*
 SMSG Type: Flags
 
-#define: SMSG_TYPE_FLAGS
+#define: SMSG_TYPE_SERVICE
 */
-typedef struct sm_flags
+typedef struct sm_service
 {
     /*Message type*/
     sm super;
 
-    /*Service flags union*/
-    union service
-    {
-        /*Decimal cast of all flags*/
-        unsigned int cast : 2;
-        
-        struct
-        {
-            /*Flag for close connection and client*/
-            unsigned b_exit : 1;
+    /*Flag for close connection and client*/
+    bool b_exit : 1;
 
-            /*Flag for reboot client and connection */
-            unsigned b_reboot : 1;
-        };
-    } service;
-} sm_flags;
+    /*Flag for reboot client and connection */
+    bool b_reboot : 1;
+
+} sm_service;
 
 /*
 SMSG Type: Message
@@ -80,21 +92,12 @@ typedef struct sm_message
     unsigned int text_len;
     char text[MSG_TXT_FIELD_SIZE];
 
-    /*Message flags union*/
-    union flags
-    {
-        /*Decimal cast of all flags*/
-        unsigned int cast : 2;
+    /*Flag for send message to all clients (global message)*/
+    bool b_global : 1;
 
-        struct
-        {
-            /*Flag for send message to all clients (global message)*/
-            unsigned b_global : 1;
+    /*Flag for say client that is its message*/
+    bool b_self : 1;
 
-            /*Flag for say client that is its message*/
-            unsigned b_self : 1;
-        };
-    } flags;
 } sm_message;
 
 /*
@@ -108,6 +111,7 @@ typedef struct sm_init
     sm super;
     
     unsigned int self_id;
+
 } sm_init;
 
 #endif

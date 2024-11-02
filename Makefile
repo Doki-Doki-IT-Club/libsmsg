@@ -2,7 +2,7 @@ CC=gcc
 JAVA= -I/usr/lib/jvm/java-8-openjdk-amd64/include -I/usr/lib/jvm/java-8-openjdk-amd64/include/linux
 DBG= -g
 
-all: clean lib
+all: clean lib lib-jni
 
 init:
 	rm -f ../libsmsg.so

@@ -41,17 +41,42 @@ void * sm_create(int type);
 */
 void sm_destroy(void * msg);
 
+/*
+@brief Return size of current SMSG object.
+@param msg pointer to SMSG object.
+
+@return
+Size of input SMSG object in bytes.
+*/
 int sm_get_size(void * msg);
+
+/*
+@brief Return type of current SMSG object.
+@param msg pointer to SMSG object.
+
+@return
+Type of input SMSG object.
+*/
 int sm_get_type(void * msg);
+
+void * sm_get_value(void * msg, int field_num);
 
 /*
 @brief Set super.size with current SMSG type
-@param super pointer to SMSG instance.
+@param super pointer to SMSG object.
 
 @return
 Count of bytes for current SMSG type message.
 */
 long sm_size_by_type(void * super);
+
+void sm_set_value(void * msg, int field_num, void * value);
+
+int sm_parse_field_num(void * msg, void * field_name);
+
+void * intTP(int value);
+
+int intPT(void * value);
 
 // +-----------------+
 // |  S T R U C T S  |

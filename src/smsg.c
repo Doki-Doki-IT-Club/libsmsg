@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 
 #include "../smsg.h"
 
@@ -44,32 +45,208 @@ void sm_destroy(void * msg)
     free(msg);
 }
 
-void * sm_get_value(void * msg, int field_num)
+int sm_parse_field_num(void * msg, void * field_name)
 {
+    if (msg == NULL) { return -1; }
+
+    if (strcmp(field_name, "size") == 0) { return 0; }
+    if (strcmp(field_name, "type") == 0) { return 1; }
+
     switch (((sm *) msg)->type)
     {
+        case SMSG_TYPE_SM:
+            break;
+
         case SMSG_TYPE_SERVICE:
-            switch (field_num)
-            {
-            case 0: // b_exit
-                return (bool *) (((sm_service *) msg)->b_exit);
-                break;
-            case 1: // b_reboot
-                return (bool *) (((sm_service *) msg)->b_reboot);
-                break;
-            }
+            if (strcmp(field_name, "b_exit") == 0) { return 2; }
+            if (strcmp(field_name, "b_reboot") == 0) { return 3; }
+            break;
+
+        case SMSG_TYPE_MESSAGE:
+            if (strcmp(field_name, "b_global") == 0) { return 2; }
+            if (strcmp(field_name, "b_self") == 0) { return 3; }
+            if (strcmp(field_name, "client_id") == 0) { return 4; }
+            if (strcmp(field_name, "client_name") == 0) { return 5; }
+            if (strcmp(field_name, "text") == 0) { return 6; }
+            if (strcmp(field_name, "text_len") == 0) { return 7; }
+            break;
+
+        case SMSG_TYPE_CLIENT_INIT:
+            if (strcmp(field_name, "self_id") == 0) { return 2; }
+            break;
+
+        case SMSG_TYPE_USERS_ONLINE:
+            if (strcmp(field_name, "names") == 0) { return 2; }
+            if (strcmp(field_name, "users_count") == 0) { return 3; }
+            break;
+
+        default:
+            return -1;
             break;
     }
 }
 
-void sm_set_value(void * msg)
-{}
+void * sm_get_value(void * msg, int field_num)
+{
+    if (msg == NULL) { return NULL; }
 
-void sm_set_size(void * msg, int size)
-{}
+    // switch (field_num)
+    // {
+    // case 0:
+    //     return (void *) &(((sm *) msg)->size);
+    //     break;
+    // case 1:
+    //     return (void *) &(((sm *) msg)->type);
+    //     break;
+    // }
 
-void sm_set_type(void * msg, int type)
-{}
+    switch (((sm *) msg)->type)
+    {
+        case SMSG_TYPE_SM:
+            break;
+
+        case SMSG_TYPE_SERVICE:
+            switch (field_num)
+            {
+            case 0:
+                return (void *) (((sm_service *) msg)->b_exit);
+                break;
+            case 1:
+                return (void *) (((sm_service *) msg)->b_reboot);
+                break;
+            }
+            break;
+
+        case SMSG_TYPE_MESSAGE:
+            switch (field_num)
+            {
+            case 0:
+                return (void *) (((sm_message *) msg)->b_global);
+                break;
+            case 1:
+                return (void *) (((sm_message *) msg)->b_self);
+                break;
+            case 2:
+                return (void *) &(((sm_message *) msg)->client_id);
+                break;
+            case 3:
+                return (void *) (((sm_message *) msg)->client_name);
+                break;
+            case 4:
+                return (void *) (((sm_message *) msg)->text);
+                break;
+            case 5:
+                return (void *) &(((sm_message *) msg)->text_len);
+                break;
+            }
+            break;
+
+        case SMSG_TYPE_CLIENT_INIT:
+            switch (field_num)
+            {
+            case 0:
+                return (void *) &(((sm_init *) msg)->self_id);
+                break;
+            }
+            break;
+
+        case SMSG_TYPE_USERS_ONLINE:
+            switch (field_num)
+            {
+            case 0:
+                return (void *) (((sm_users_online *) msg)->names);
+                break;
+            case 1:
+                return (void *) &(((sm_users_online *) msg)->users_count);
+                break;
+            }
+            break;
+
+        default:
+            return NULL;
+            break;
+    }
+}
+
+void sm_set_value(void * msg, int field_num, void * value)
+{
+    if (msg == NULL) { return; }
+
+    // switch (field_num)
+    // {
+    // case 0:
+    //     (((sm *) msg)->size) = * (int *) value;
+    //     break;
+    // case 1:
+    //     (((sm *) msg)->type) = * (int *) value;
+    //     break;
+    // }
+
+    switch (((sm *) msg)->type)
+    {
+        case SMSG_TYPE_SM:
+            break;
+
+        case SMSG_TYPE_SERVICE:
+            switch (field_num)
+            {
+            case 0:
+                (((sm_service *) msg)->b_exit) = * (bool *) value;
+                break;
+            case 1:
+                (((sm_service *) msg)->b_reboot) = * (bool *) value;
+                break;
+            }
+            break;
+
+        case SMSG_TYPE_MESSAGE:
+            switch (field_num)
+            {
+            case 0:
+                (((sm_message *) msg)->b_global) = * (bool *) value;
+                break;
+            case 1:
+                (((sm_message *) msg)->b_self) = * (bool *) value;
+                break;
+            case 2:
+                (((sm_message *) msg)->client_id) = * (int *) value;
+                break;
+            case 3:
+                strncpy((((sm_message *) msg)->client_name), (char *) value, CLIENT_NAME_FILED_SIZE); // TODO
+                break;
+            case 4:
+                //(((sm_message *) msg)->text) = value;
+                break;
+            case 5:
+                (((sm_message *) msg)->text_len) = * (int *) value;
+                break;
+            }
+            break;
+
+        case SMSG_TYPE_CLIENT_INIT:
+            switch (field_num)
+            {
+            case 0:
+                (((sm_init *) msg)->self_id) = * (int *) value;
+                break;
+            }
+            break;
+
+        case SMSG_TYPE_USERS_ONLINE:
+            switch (field_num)
+            {
+            case 0:
+                //(((sm_users_online *) msg)->names) = value;
+                break;
+            case 1:
+                (((sm_users_online *) msg)->users_count) = * (int *) value;
+                break;
+            }
+            break;
+    }
+
+    free(value);
+}
 
 int sm_get_size(void * msg)
 {
@@ -118,3 +295,13 @@ long sm_size_by_type(void * msg)
 
     return ret;
 }
+
+void * intTP(int value)
+{
+    void * res = malloc(sizeof(int));
+    * (int *) res = value;
+    return res;
+}
+
+int intPT(void * value)
+{ return * (int *) value; }

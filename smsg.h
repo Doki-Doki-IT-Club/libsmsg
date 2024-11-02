@@ -15,10 +15,11 @@
 #define CLIENT_NAME_FILED_SIZE 16
 #define USERS_ONLINE_LIST_SIZE 64
 
-#define SMSG_TYPE_SERVICE 0
-#define SMSG_TYPE_MESSAGE 1
-#define SMSG_TYPE_CLIENT_INIT 2
-#define SMSG_TYPE_USERS_ONLINE 3
+#define SMSG_TYPE_SM 0
+#define SMSG_TYPE_SERVICE 1
+#define SMSG_TYPE_MESSAGE 2
+#define SMSG_TYPE_CLIENT_INIT 3
+#define SMSG_TYPE_USERS_ONLINE 4
 
 // +-----------------------+
 // |  P R O T O T Y P E S  |
@@ -40,6 +41,9 @@ void * sm_create(int type);
 */
 void sm_destroy(void * msg);
 
+int sm_get_size(void * msg);
+int sm_get_type(void * msg);
+
 /*
 @brief Set super.size with current SMSG type
 @param super pointer to SMSG instance.
@@ -54,7 +58,9 @@ long sm_size_by_type(void * super);
 // +-----------------+
 
 /*
-SMSG Core-type
+SMSG Super-type
+
+@note `SMSG_TYPE_SM`
 */
 typedef struct sm
 {

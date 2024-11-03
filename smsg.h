@@ -11,9 +11,9 @@
 // |  D E F I N E S  |
 // +-----------------+
 
-#define MSG_TXT_FIELD_SIZE 64
-#define CLIENT_NAME_FILED_SIZE 16
-#define USERS_ONLINE_LIST_SIZE 64
+#define MSG_TXT_FIELD_SIZE 256      //! Will be deprecated in Base-1
+#define CLIENT_NAME_FILED_SIZE 32   //! Will be deprecated in Base-1
+#define USERS_ONLINE_LIST_SIZE 64   //! Will be deprecated in Base-1
 
 #define SMSG_TYPE_SM 0
 #define SMSG_TYPE_SERVICE 1
@@ -72,7 +72,9 @@ long sm_size_by_type(void * super);
 
 void sm_set_value(void * msg, int field_num, void * value);
 
-int sm_parse_field_num(void * msg, void * field_name);
+int sm_parse_field_num(void * msg,  const char * field_name);
+
+int sm_parse_type_num(const char * type_name);
 
 void * intTP(int value);
 
@@ -159,13 +161,13 @@ SMSG Type: Initial
 
 @note `SMSG_TYPE_CLIENT_INIT`
 */
-typedef struct sm_init
+typedef struct sm_client_init
 {
     /*Message type*/
     sm super;
     
     unsigned int self_id;
 
-} sm_init;
+} sm_client_init;
 
 #endif

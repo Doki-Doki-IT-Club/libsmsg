@@ -5,6 +5,8 @@ DBG= -g
 all: clean lib lib-jni
 
 init:
+	mkdir obj/ -p
+	mkdir lib/ -p
 	rm -f ../libsmsg.so
 	ln -s libsmsg/lib/libsmsg.so ../libsmsg.so
 

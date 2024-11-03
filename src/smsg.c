@@ -101,7 +101,7 @@ int sm_parse_field_num(void * msg, const char * field_name)
     }
 }
 
-void * sm_get_value(void * msg, int field_num)
+void * sm_get_value(void * msg, int field_num, int index)
 {
     if (msg == NULL) { return NULL; }
 
@@ -145,7 +145,7 @@ void * sm_get_value(void * msg, int field_num)
                 return (void *) &(((sm_message *) msg)->client_id);
                 break;
             case 3:
-                return (void *) (((sm_message *) msg)->client_name);
+                return (char *) (((sm_message *) msg)->client_name);
                 break;
             case 4:
                 return (char *) (((sm_message *) msg)->text);
@@ -169,7 +169,7 @@ void * sm_get_value(void * msg, int field_num)
             switch (field_num)
             {
             case 0:
-                return (void *) (((sm_users_online *) msg)->names);
+                return (void *) (((sm_users_online *) msg)->names)[index];
                 break;
             case 1:
                 return (void *) &(((sm_users_online *) msg)->users_count);
@@ -183,7 +183,7 @@ void * sm_get_value(void * msg, int field_num)
     }
 }
 
-void sm_set_value(void * msg, int field_num, void * value)
+void sm_set_value(void * msg, int field_num, void * value, int index)
 {
     if (msg == NULL) { return; }
 
@@ -251,7 +251,7 @@ void sm_set_value(void * msg, int field_num, void * value)
             switch (field_num)
             {
             case 0:
-                //(((sm_users_online *) msg)->names) = value;
+                strncpy((((sm_users_online *) msg)->names)[index], (char *) value, USERS_ONLINE_LIST_SIZE);
                 break;
             case 1:
                 (((sm_users_online *) msg)->users_count) = * (int *) value;

@@ -49,26 +49,26 @@ static jlong smSizeByType(JNIEnv *env, jobject obj, jlong msg)
 	return (jlong) sm_size_by_type((void *) msg);
 }
 
-static jlong smGetValue(JNIEnv *env, jobject obj, jlong msg, jint field_num)
+static jlong smGetValue(JNIEnv *env, jobject obj, jlong msg, jint field_num, jint index)
 {
 	(void) env;
 	(void) obj;
-	return (jlong) sm_get_value((void *) msg, (int) field_num);
+	return (jlong) sm_get_value((void *) msg, (int) field_num, (int) index);
 }
 
-static void smSetIntValue(JNIEnv *env, jobject obj, jlong msg, jint field_num, jlong value)
+static void smSetIntValue(JNIEnv *env, jobject obj, jlong msg, jint field_num, jlong value, jint index)
 {
 	(void) env;
 	(void) obj;
-	sm_set_value((void *) msg, (int) field_num, (void *) value);
+	sm_set_value((void *) msg, (int) field_num, (void *) value, (int) index);
 }
 
-static void smSetStringValue(JNIEnv *env, jobject obj, jlong msg, jint field_num, jstring value)
+static void smSetStringValue(JNIEnv *env, jobject obj, jlong msg, jint field_num, jstring value, jint index)
 {
 	const char * str;
 	(void) obj;
 	str = (*env)->GetStringUTFChars(env, value, 0);
-	sm_set_value((void *) msg, (int) field_num, (void *) str);
+	sm_set_value((void *) msg, (int) field_num, (void *) str, (int) index);
 }
 
 static jint smParseFieldNum(JNIEnv *env, jobject obj, jlong msg, jstring field_name)
@@ -114,10 +114,10 @@ static JNINativeMethod sm_funcs[] = {
 	{ "smDestroy", "(J)V", (void *) &smDestroy },
     { "smGetSize", "(J)I", (void *) &smGetSize },
     { "smGetType", "(J)I", (void *) &smGetType },
-	{ "smGetValue", "(JI)J", (void *) &smGetValue },
+	{ "smGetValue", "(JII)J", (void *) &smGetValue },
     { "smSizeByType", "(J)J", (void *) &smSizeByType },
-	{ "smSetIntValue", "(JIJ)V", (void *) &smSetIntValue },
-	{ "smSetStringValue", "(JILjava/lang/String;)V", (void *) &smSetStringValue },
+	{ "smSetIntValue", "(JIJI)V", (void *) &smSetIntValue },
+	{ "smSetStringValue", "(JILjava/lang/String;I)V", (void *) &smSetStringValue },
 	{ "smParseFieldNum", "(JLjava/lang/String;)I", (void *) &smParseFieldNum },
 	{ "smParseTypeNum", "(Ljava/lang/String;)I", (void *) &smParseTypeNum },
 	{ "smIntTP", "(I)J", (void *) &smIntTP },

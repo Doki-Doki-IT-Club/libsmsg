@@ -59,7 +59,7 @@ Type of input SMSG object.
 */
 int sm_get_type(void * msg);
 
-void * sm_get_value(void * msg, int field_num);
+void * sm_get_value(void * msg, int field_num, int index);
 
 /*
 @brief Set super.size with current SMSG type
@@ -70,7 +70,7 @@ Count of bytes for current SMSG type message.
 */
 long sm_size_by_type(void * super);
 
-void sm_set_value(void * msg, int field_num, void * value);
+void sm_set_value(void * msg, int field_num, void * value, int index);
 
 int sm_parse_field_num(void * msg,  const char * field_name);
 
@@ -100,21 +100,6 @@ typedef struct sm
 } sm;
 
 /*
-SMSG Type: UsersOnline
-
-@note `SMSG_TYPE_USERS_ONLINE`
-*/
-typedef struct sm_users_online
-{
-    /*Message type*/
-    sm super;
-
-    int users_count;
-    char names[USERS_ONLINE_LIST_SIZE][CLIENT_NAME_FILED_SIZE];
-
-} sm_users_online;
-
-/*
 SMSG Type: Flags
 
 @note `SMSG_TYPE_SERVICE`
@@ -125,10 +110,10 @@ typedef struct sm_service
     sm super;
 
     /*Flag for close connection and client*/
-    bool b_exit : 1;
+    bool b_exit;
 
     /*Flag for reboot client and connection */
-    bool b_reboot : 1;
+    bool b_reboot;
 
 } sm_service;
 
@@ -149,10 +134,10 @@ typedef struct sm_message
     char text[MSG_TXT_FIELD_SIZE];
 
     /*Flag for send message to all clients (global message)*/
-    bool b_global : 1;
+    bool b_global;
 
     /*Flag for say client that is its message*/
-    bool b_self : 1;
+    bool b_self;
 
 } sm_message;
 
@@ -169,5 +154,20 @@ typedef struct sm_client_init
     unsigned int self_id;
 
 } sm_client_init;
+
+/*
+SMSG Type: UsersOnline
+
+@note `SMSG_TYPE_USERS_ONLINE`
+*/
+typedef struct sm_users_online
+{
+    /*Message type*/
+    sm super;
+
+    int users_count;
+    char names[USERS_ONLINE_LIST_SIZE][CLIENT_NAME_FILED_SIZE];
+
+} sm_users_online;
 
 #endif

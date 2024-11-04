@@ -5,6 +5,6 @@
    <img src="https://img.shields.io/badge/License-MIT-magenta" alt="License">
 </p>
 
-A multi-language-support library for convenient communication of client-server applications, written in C. Supports JNI.
+A multi-language library for convenient communication of client-server applications, written in C. Supports JNI.
 
 [JNI Class for Java projects](https://github.com/Doki-Doki-IT-Club/SuperMessage.java)

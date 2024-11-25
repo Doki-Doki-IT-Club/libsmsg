@@ -1,6 +1,4 @@
-#include <jni.h>
-#include <string.h>
-#include <stdlib.h>
+#define __LIBSMSG_USE_JNI__
 
 #include "../smsg.h"
 

@@ -1,6 +1,3 @@
-#include <stdlib.h>
-#include <string.h>
-
 #include "../smsg.h"
 
 void * sm_create(int type)
@@ -99,6 +96,8 @@ int sm_parse_field_num(void * msg, const char * field_name)
             return -1;
             break;
     }
+
+    return -1;
 }
 
 void * sm_get_value(void * msg, int field_num, int index)
@@ -181,6 +180,8 @@ void * sm_get_value(void * msg, int field_num, int index)
             return NULL;
             break;
     }
+
+    return NULL;
 }
 
 void sm_set_value(void * msg, int field_num, void * value, int index)

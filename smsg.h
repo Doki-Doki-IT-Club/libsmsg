@@ -6,6 +6,12 @@
 // +-------------------+
 
 #include <stdbool.h>
+#include <stdlib.h>
+#include <string.h>
+
+#ifdef __LIBSMSG_USE_JNI__
+#include <jni.h>
+#endif
 
 // +-----------------+
 // |  D E F I N E S  |

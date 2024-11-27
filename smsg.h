@@ -5,9 +5,8 @@
 // |  I N C L U D E S  |
 // +-------------------+
 
-#include <stdbool.h>
-#include <stdlib.h>
 #include <string.h>
+#include <stdlib.h>
 
 #ifdef __LIBSMSG_USE_JNI__
 #include <jni.h>
@@ -16,6 +15,10 @@
 // +-----------------+
 // |  D E F I N E S  |
 // +-----------------+
+
+#define bool int
+#define true 1
+#define false 0
 
 #define MSG_TXT_FIELD_SIZE 256      //! Will be deprecated in Base-1
 #define CLIENT_NAME_FILED_SIZE 32   //! Will be deprecated in Base-1

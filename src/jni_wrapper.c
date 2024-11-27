@@ -66,7 +66,9 @@ static void smSetStringValue(JNIEnv *env, jobject obj, jlong msg, jint field_num
 	const char * str;
 	(void) obj;
 	str = (*env)->GetStringUTFChars(env, value, 0);
-	sm_set_value((void *) msg, (int) field_num, (void *) str, (int) index);
+	char * s = (char *) malloc(strlen(str) * sizeof(char));
+	strcpy(s, str);
+	sm_set_value((void *) msg, (int) field_num, (void *) s, (int) index);
 }
 
 static jint smParseFieldNum(JNIEnv *env, jobject obj, jlong msg, jstring field_name)
@@ -103,7 +105,7 @@ static jstring smStringPT(JNIEnv *env, jobject obj, jlong value)
 {
 	char sval[1024];
 	(void)obj;
-	snprintf(sval, sizeof(sval), "%s", (char *) value);
+	strcpy(sval, (char *) value);
 	return (*env)->NewStringUTF(env, sval);
 }
 

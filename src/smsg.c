@@ -123,10 +123,10 @@ void * sm_get_value(void * msg, int field_num, int index)
             switch (field_num)
             {
             case 0:
-                return (void *) (((sm_service *) msg)->b_exit);
+                return (void *) &(((sm_service *) msg)->b_exit);
                 break;
             case 1:
-                return (void *) (((sm_service *) msg)->b_reboot);
+                return (void *) &(((sm_service *) msg)->b_reboot);
                 break;
             }
             break;
@@ -135,10 +135,10 @@ void * sm_get_value(void * msg, int field_num, int index)
             switch (field_num)
             {
             case 0:
-                return (void *) (((sm_message *) msg)->b_global);
+                return (void *) &(((sm_message *) msg)->b_global);
                 break;
             case 1:
-                return (void *) (((sm_message *) msg)->b_self);
+                return (void *) &(((sm_message *) msg)->b_self);
                 break;
             case 2:
                 return (void *) &(((sm_message *) msg)->client_id);

@@ -55,7 +55,7 @@ void sm_destroy(void * msg);
 @param msg pointer to SMSG object.
 
 @return
-Size of input SMSG object in bytes.
+Size of current SMSG object in bytes.
 */
 int sm_get_size(void * msg);
 
@@ -68,6 +68,15 @@ Type of input SMSG object.
 */
 int sm_get_type(void * msg);
 
+/*
+@brief Return pointer to value in current SMSG object.
+@param msg pointer to SMSG object.
+@param field_num number of field in SMSG object.
+@param index position in values array (optional).
+
+@return
+Pointer to value.
+*/
 void * sm_get_value(void * msg, int field_num, int index);
 
 /*
@@ -75,19 +84,56 @@ void * sm_get_value(void * msg, int field_num, int index);
 @param super pointer to SMSG object.
 
 @return
-Count of bytes for current SMSG type message.
+Count of bytes.
 */
 long sm_size_by_type(void * super);
 
+/*
+@brief Set new value to current field in current SMSG object.
+@param msg pointer to SMSG object.
+@param field_num number of field in SMSG object.
+@param value pointer to new value.
+@param index position in values array (optional).
+*/
 void sm_set_value(void * msg, int field_num, void * value, int index);
 
+/*
+@brief Return number of field by string name in current SMSG object.
+@param msg pointer to SMSG object.
+@param field_name string name of field.
+
+@return
+Number of field.
+*/
 int sm_parse_field_num(void * msg,  const char * field_name);
 
+/*
+@brief Return number of type by string name in current SMSG object.
+@param msg pointer to SMSG object.
+@param field_name string name of field.
+
+@return
+Number of type.
+*/
 int sm_parse_type_num(const char * type_name);
 
+/*
+@brief Return pointer to int value.
+@param value int value to get pointer.
+
+@return
+Pinter to int value.
+*/
 void * intTP(int value);
 
-int intPT(void * value);
+/*
+@brief Return int value by pointer.
+@param pointer pointer to value.
+
+@return
+Int value.
+*/
+int intPT(void * pointer);
 
 // +-----------------+
 // |  S T R U C T S  |

@@ -104,16 +104,6 @@ void * sm_get_value(void * msg, int field_num, int index)
 {
     if (msg == NULL) { return NULL; }
 
-    // switch (field_num)
-    // {
-    // case 0:
-    //     return (void *) &(((sm *) msg)->size);
-    //     break;
-    // case 1:
-    //     return (void *) &(((sm *) msg)->type);
-    //     break;
-    // }
-
     switch (((sm *) msg)->type)
     {
         case SMSG_TYPE_SM:
@@ -122,57 +112,35 @@ void * sm_get_value(void * msg, int field_num, int index)
         case SMSG_TYPE_SERVICE:
             switch (field_num)
             {
-            case 0:
-                return (void *) &(((sm_service *) msg)->b_exit);
-                break;
-            case 1:
-                return (void *) &(((sm_service *) msg)->b_reboot);
-                break;
+            case 0: return (void *) &(((sm_service *) msg)->b_exit);            break;
+            case 1: return (void *) &(((sm_service *) msg)->b_reboot);          break;
             }
             break;
 
         case SMSG_TYPE_MESSAGE:
             switch (field_num)
             {
-            case 0:
-                return (void *) &(((sm_message *) msg)->b_global);
-                break;
-            case 1:
-                return (void *) &(((sm_message *) msg)->b_self);
-                break;
-            case 2:
-                return (void *) &(((sm_message *) msg)->client_id);
-                break;
-            case 3:
-                return (char *) (((sm_message *) msg)->client_name);
-                break;
-            case 4:
-                return (char *) (((sm_message *) msg)->text);
-                break;
-            case 5:
-                return (void *) &(((sm_message *) msg)->text_len);
-                break;
+            case 0: return (void *) &(((sm_message *) msg)->b_global);          break;
+            case 1: return (void *) &(((sm_message *) msg)->b_self);            break;
+            case 2: return (void *) &(((sm_message *) msg)->client_id);         break;
+            case 3: return (char *) (((sm_message *) msg)->client_name);        break;
+            case 4: return (char *) (((sm_message *) msg)->text);               break;
+            case 5: return (void *) &(((sm_message *) msg)->text_len);          break;
             }
             break;
 
         case SMSG_TYPE_CLIENT_INIT:
             switch (field_num)
             {
-            case 0:
-                return (void *) &(((sm_client_init *) msg)->self_id);
-                break;
+            case 0: return (void *) &(((sm_client_init *) msg)->self_id);       break;
             }
             break;
 
         case SMSG_TYPE_USERS_ONLINE:
             switch (field_num)
             {
-            case 0:
-                return (void *) (((sm_users_online *) msg)->names)[index];
-                break;
-            case 1:
-                return (void *) &(((sm_users_online *) msg)->users_count);
-                break;
+            case 0: return (void *) (((sm_users_online *) msg)->names)[index];  break;
+            case 1: return (void *) &(((sm_users_online *) msg)->users_count);  break;
             }
             break;
 
@@ -188,16 +156,6 @@ void sm_set_value(void * msg, int field_num, void * value, int index)
 {
     if (msg == NULL) { return; }
 
-    // switch (field_num)
-    // {
-    // case 0:
-    //     (((sm *) msg)->size) = * (int *) value;
-    //     break;
-    // case 1:
-    //     (((sm *) msg)->type) = * (int *) value;
-    //     break;
-    // }
-
     switch (((sm *) msg)->type)
     {
         case SMSG_TYPE_SM:
@@ -206,57 +164,35 @@ void sm_set_value(void * msg, int field_num, void * value, int index)
         case SMSG_TYPE_SERVICE:
             switch (field_num)
             {
-            case 0:
-                (((sm_service *) msg)->b_exit) = * (bool *) value;
-                break;
-            case 1:
-                (((sm_service *) msg)->b_reboot) = * (bool *) value;
-                break;
+            case 0: (((sm_service *) msg)->b_exit) = * (bool *) value;                                          break;
+            case 1: (((sm_service *) msg)->b_reboot) = * (bool *) value;                                        break;
             }
             break;
 
         case SMSG_TYPE_MESSAGE:
             switch (field_num)
             {
-            case 0:
-                (((sm_message *) msg)->b_global) = * (bool *) value;
-                break;
-            case 1:
-                (((sm_message *) msg)->b_self) = * (bool *) value;
-                break;
-            case 2:
-                (((sm_message *) msg)->client_id) = * (int *) value;
-                break;
-            case 3:
-                strncpy((((sm_message *) msg)->client_name), (char *) value, CLIENT_NAME_FILED_SIZE);
-                break;
-            case 4:
-                strncpy((((sm_message *) msg)->text), (char *) value, MSG_TXT_FIELD_SIZE);
-                break;
-            case 5:
-                (((sm_message *) msg)->text_len) = * (int *) value;
-                break;
+            case 0: (((sm_message *) msg)->b_global) = * (bool *) value;                                        break;
+            case 1: (((sm_message *) msg)->b_self) = * (bool *) value;                                          break;
+            case 2: (((sm_message *) msg)->client_id) = * (int *) value;                                        break;
+            case 3: strncpy((((sm_message *) msg)->client_name), (char *) value, CLIENT_NAME_FILED_SIZE);       break;
+            case 4: strncpy((((sm_message *) msg)->text), (char *) value, MSG_TXT_FIELD_SIZE);                  break;
+            case 5: (((sm_message *) msg)->text_len) = * (int *) value;                                         break;
             }
             break;
 
         case SMSG_TYPE_CLIENT_INIT:
             switch (field_num)
             {
-            case 0:
-                (((sm_client_init *) msg)->self_id) = * (int *) value;
-                break;
+            case 0: (((sm_client_init *) msg)->self_id) = * (int *) value;                                      break;
             }
             break;
 
         case SMSG_TYPE_USERS_ONLINE:
             switch (field_num)
             {
-            case 0:
-                strncpy((((sm_users_online *) msg)->names)[index], (char *) value, USERS_ONLINE_LIST_SIZE);
-                break;
-            case 1:
-                (((sm_users_online *) msg)->users_count) = * (int *) value;
-                break;
+            case 0: strncpy((((sm_users_online *) msg)->names)[index], (char *) value, USERS_ONLINE_LIST_SIZE); break;
+            case 1: (((sm_users_online *) msg)->users_count) = * (int *) value;                                 break;
             }
             break;
     }
@@ -286,25 +222,11 @@ long sm_size_by_type(void * msg)
 
     switch (((sm *) msg)->type)
     {
-        case SMSG_TYPE_SM:
-            ret = sizeof(sm);
-            break;
-
-        case SMSG_TYPE_SERVICE:
-            ret = sizeof(sm_service);
-            break;
-
-        case SMSG_TYPE_MESSAGE:
-            ret = sizeof(sm_message);
-            break;
-
-        case SMSG_TYPE_CLIENT_INIT:
-            ret = sizeof(sm_client_init);
-            break;
-
-        case SMSG_TYPE_USERS_ONLINE:
-            ret = sizeof(sm_users_online);
-            break;
+        case SMSG_TYPE_SM: ret = sizeof(sm);                        break;
+        case SMSG_TYPE_SERVICE: ret = sizeof(sm_service);           break;
+        case SMSG_TYPE_MESSAGE: ret = sizeof(sm_message);           break;
+        case SMSG_TYPE_CLIENT_INIT: ret = sizeof(sm_client_init);   break;
+        case SMSG_TYPE_USERS_ONLINE: ret = sizeof(sm_users_online); break;
     }
 
     ((sm *) msg)->size = ret;

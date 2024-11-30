@@ -44,7 +44,7 @@
 void * sm_create(int type);
 
 /*
-@brief Create new SMSG object with needed type.
+@brief Destroy the SMSG object.
 
 @param msg pointer to SMSG object that will be destroyed.
 */
@@ -81,12 +81,12 @@ void * sm_get_value(void * msg, int field_num, int index);
 
 /*
 @brief Set super.size with current SMSG type
-@param super pointer to SMSG object.
+@param msg pointer to SMSG object.
 
 @return
 Count of bytes.
 */
-long sm_size_by_type(void * super);
+long sm_size_by_type(void * msg);
 
 /*
 @brief Set new value to current field in current SMSG object.

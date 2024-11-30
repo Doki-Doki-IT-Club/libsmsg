@@ -2,7 +2,7 @@
 
 void * sm_create(int type)
 {
-    void * ret = NULL;
+    void * ret;
     
     switch (type)
     {
@@ -35,6 +35,9 @@ void * sm_create(int type)
             memset(ret, 0, sizeof(sm_users_online));
             ((sm_users_online *) ret)->super.type = SMSG_TYPE_USERS_ONLINE;
             break;
+
+        default:
+            ret = NULL;
     }
 
     return ret;
@@ -45,6 +48,8 @@ void sm_destroy(void * msg)
     if (msg == NULL) { return; }
 
     free(msg);
+    
+    msg = NULL;
 }
 
 int sm_parse_type_num(const char * type_name)
@@ -242,4 +247,4 @@ void * intTP(int value)
 }
 
 int intPT(void * value)
-{ return * (int *) value; }
+{ if (value == NULL) {return 0;} else {return * (int *) value;} }
